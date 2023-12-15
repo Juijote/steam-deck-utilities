@@ -26,7 +26,6 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	_ "github.com/lengzhao/font/autoload"
 	"github.com/lengzhao/font"
 	"os"
 )
