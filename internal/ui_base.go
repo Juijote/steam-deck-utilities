@@ -25,8 +25,6 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-
-	"cryoutilities/internal/theme"  // 替换为你实际的路径
 )
 
 func InitUI() {
