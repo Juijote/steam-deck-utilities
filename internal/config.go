@@ -20,8 +20,6 @@ import (
 	"image/color"
 	"os"
 	"path/filepath"
-
-	"os"
 )
 
 func init() {

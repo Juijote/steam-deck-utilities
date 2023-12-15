@@ -23,8 +23,6 @@ import (
 	"strconv"
 
 	cp "github.com/otiai10/copy"
-
-	"os"
 )
 
 func init() {
