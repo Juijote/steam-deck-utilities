@@ -26,7 +26,6 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	"github.com/flopp/go-findfont"
 	"os"
 )
 
