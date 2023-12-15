@@ -26,7 +26,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	"cryoutilities/internal/theme"
+	"./internal/theme"
 )
 
 func InitUI() {
