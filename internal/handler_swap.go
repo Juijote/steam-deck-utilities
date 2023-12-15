@@ -27,7 +27,7 @@ import (
 
 func init() {
 	//设置中文字体
-	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
+	os.Setenv("FYNE_FONT", "/home/deck/.cryo_utilities/NotoSansSC.ttf")
 }
 
 // Get swap file location from the system (/proc/swaps)
