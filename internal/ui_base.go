@@ -32,13 +32,9 @@ func InitUI() {
 	screenSizer := NewScreenSizer()
 	screenSizer.UpdateScaleForActiveMonitor()
 	fyneApp := app.NewWithID("io.cryobyte.cryoutilities")
+	fyneApp.Settings().SetTheme(&theme.MyTheme{}) //配置字体
 	CryoUtils.App = fyneApp
 	CryoUtils.App.SetIcon(ResourceIconPng)
-
-	// Set system font
-	systemFont := fyne.SystemFont()
-	fyneApp.Settings().SetTheme(theme.DefaultTheme())
-	fyneApp.Settings().SetTheme(theme.CustomThemeWithParams("SystemFont", map[string]interface{}{"DefaultFont": systemFont}))
 
 	// Show and run the app
 	title := "CryoUtilities " + CurrentVersionNumber
