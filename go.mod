@@ -9,8 +9,6 @@ require (
 	github.com/moby/sys/mountinfo v0.6.2
 	github.com/otiai10/copy v1.9.0
 	golang.org/x/sys v0.5.0
-
-	github.com/lengzhao/font v0.1.0
 )
 
 require (
