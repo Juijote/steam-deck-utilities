@@ -26,7 +26,7 @@ import (
 //	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	"./theme"  // 替换为你实际的路径
+	"./internal/theme"  // 替换为你实际的路径
 )
 
 func InitUI() {
