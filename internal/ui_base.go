@@ -23,7 +23,7 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
-	"fyne.io/fyne/v2/theme"
+//	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
 	"./theme"  // 替换为你实际的路径
