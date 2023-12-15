@@ -26,7 +26,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	"theme"
+	"./theme"
 )
 
 func InitUI() {
@@ -36,7 +36,7 @@ func InitUI() {
 	fyneApp := app.NewWithID("io.cryobyte.cryoutilities")
 
 	// 设置主题
-	fyneApp.Settings().SetTheme(&theme.myTheme{})
+	fyneApp.Settings().SetTheme(&theme{})
 
 	CryoUtils.App = fyneApp
 	CryoUtils.App.SetIcon(ResourceIconPng)
