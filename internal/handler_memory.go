@@ -16,10 +16,6 @@
 
 package internal
 
-import (
-	_ "github.com/lengzhao/font/autoload"
-)
-
 func getHugePagesStatus() bool {
 	status, err := getUnitStatus("hugepages")
 	if err != nil {

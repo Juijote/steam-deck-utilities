@@ -24,8 +24,6 @@ import (
 	"path/filepath"
 	"sort"
 	"strconv"
-
-	_ "github.com/lengzhao/font/autoload"
 )
 
 type GameStatus struct {

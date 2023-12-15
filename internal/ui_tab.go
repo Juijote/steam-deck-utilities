@@ -24,8 +24,6 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"strconv"
 	"strings"
-
-	_ "github.com/lengzhao/font/autoload"
 )
 
 // Home tab for "recommended" and "default" buttons

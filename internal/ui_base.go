@@ -1,4 +1,4 @@
-﻿// CryoUtilities
+// CryoUtilities
 // Copyright (C) 2023 CryoByte33 and contributors to the CryoUtilities project
 
 // This program is free software: you can redistribute it and/or modify
@@ -25,16 +25,15 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-
-	_ "github.com/lengzhao/font/autoload"
 )
 
 func InitUI() {
-
 	// Create a Fyne application
 	screenSizer := NewScreenSizer()
 	screenSizer.UpdateScaleForActiveMonitor()
 	fyneApp := app.NewWithID("io.cryobyte.cryoutilities")
+	// 设置主题
+	fyneApp.Settings().SetTheme(&myTheme{})
 	CryoUtils.App = fyneApp
 	CryoUtils.App.SetIcon(ResourceIconPng)
 

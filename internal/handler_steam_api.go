@@ -21,8 +21,6 @@ import (
 	"io"
 	"net/http"
 	"time"
-
-	_ "github.com/lengzhao/font/autoload"
 )
 
 type AppResponse struct {

@@ -6,8 +6,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-
-	_ "github.com/lengzhao/font/autoload"
 )
 
 // Get the current VRAM

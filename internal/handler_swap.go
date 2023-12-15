@@ -23,8 +23,6 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
-
-	_ "github.com/lengzhao/font/autoload"
 )
 
 // Get swap file location from the system (/proc/swaps)

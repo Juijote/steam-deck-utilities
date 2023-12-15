@@ -19,7 +19,6 @@ package internal
 import (
 	"strconv"
 	"strings"
-	_ "github.com/lengzhao/font/autoload"
 )
 
 // ChangeSwapSizeCLI Change the swap file size to the specified size in GB
