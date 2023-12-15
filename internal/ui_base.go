@@ -27,6 +27,8 @@ import (
 	"fyne.io/fyne/v2/widget"
 
 	"github.com/flopp/go-findfont"
+	"strings"
+	"os"
 )
 
 func init() {
