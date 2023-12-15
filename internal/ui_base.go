@@ -30,8 +30,9 @@ import (
 func makeUI() {
 	// Your existing UI creation code here...
 
-	// Set language to Chinese
-	fyne.CurrentApp().Settings().SetLanguage("zh_CN")
+	// Set font to a font that supports Chinese characters
+	fyne.CurrentApp().Settings().SetTheme(theme.LightTheme())
+	fyne.CurrentApp().Settings().Theme().Font(theme.TextFont()).SetStyle("Noto Sans CJK SC")
 }
 
 func InitUI() {
