@@ -27,19 +27,12 @@ import (
 	"fyne.io/fyne/v2/widget"
 
 	"github.com/flopp/go-findfont"
-	"strings"
 	"os"
 )
 
 func init() {
 	//设置中文字体
-	fontPaths := findfont.List()
-	for _, path := range fontPaths {
-		if strings.Contains(path, "msyh.ttf") || strings.Contains(path, "simhei.ttf") || strings.Contains(path, "simsun.ttc") || strings.Contains(path, "simkai.ttf") {
-			os.Setenv("FYNE_FONT", path)
-			break
-		}
-	}
+	os.Setenv("FYNE_FONT", "/home/deck/.fonts/l/LXGWNeoZhiSong.ttf")
 }
 
 func InitUI() {
