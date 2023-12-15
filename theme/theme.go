@@ -1,4 +1,4 @@
-package InitUI
+package theme
 
 import (
 "image/color"
