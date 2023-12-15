@@ -26,7 +26,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	"cryoutilities/theme"
+	"github.com/zhaocy/fyne-ex/themex"
 )
 
 func InitUI() {
@@ -34,7 +34,7 @@ func InitUI() {
 	screenSizer := NewScreenSizer()
 	screenSizer.UpdateScaleForActiveMonitor()
 	fyneApp := app.NewWithID("io.cryobyte.cryoutilities")
-	fyneApp.Settings().SetTheme(&theme.MyTheme{}) //配置字体
+	fyneApp.Settings().SetTheme(&theme.themex{}) //配置字体
 	CryoUtils.App = fyneApp
 	CryoUtils.App.SetIcon(ResourceIconPng)
 
