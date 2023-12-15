@@ -26,18 +26,25 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	_ "internal/theme"
+	"github.com/flopp/go-findfont"
 )
+
+func init() {
+	//设置中文字体
+	fontPaths := findfont.List()
+	for _, path := range fontPaths {
+		if strings.Contains(path, "msyh.ttf") || strings.Contains(path, "simhei.ttf") || strings.Contains(path, "simsun.ttc") || strings.Contains(path, "simkai.ttf") {
+			os.Setenv("FYNE_FONT", path)
+			break
+		}
+	}
+}
 
 func InitUI() {
 	// Create a Fyne application
 	screenSizer := NewScreenSizer()
 	screenSizer.UpdateScaleForActiveMonitor()
 	fyneApp := app.NewWithID("io.cryobyte.cryoutilities")
-
-	// 设置主题
-	fyneApp.Settings().SetTheme(&theme{})
-
 	CryoUtils.App = fyneApp
 	CryoUtils.App.SetIcon(ResourceIconPng)
 
