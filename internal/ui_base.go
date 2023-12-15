@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package internal
-package font
 
 import (
 	"errors"
@@ -27,7 +26,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	"github.com/lengzhao/font"
+	_ "github.com/lengzhao/font/autoload"
 	"os"
 )
 
