@@ -27,6 +27,13 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+func makeUI() {
+	// Your existing UI creation code here...
+
+	// Set language to Chinese
+	fyne.CurrentApp().Settings().SetLanguage("zh_CN")
+}
+
 func InitUI() {
 	// Create a Fyne application
 	screenSizer := NewScreenSizer()
