@@ -35,6 +35,12 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+func init() {
+	//设置中文字体
+	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
+}
+
+
 type Config struct {
 	App                           fyne.App
 	InfoLog                       *log.Logger
@@ -74,7 +80,7 @@ func getFreeSpace(path string) (int64, error) {
 	err := unix.Statfs(path, &stat)
 	if err != nil {
 		CryoUtils.ErrorLog.Println(err)
-		return 0, fmt.Errorf("error getting free space")
+		return 0, fmt.Errorf("获取可用空间时出错e")
 	}
 	return int64(stat.Bfree * uint64(stat.Bsize)), nil
 }
@@ -93,7 +99,7 @@ func getDirectorySize(path string) int64 {
 func isSymbolicLink(path string) bool {
 	fi, err := os.Lstat(path)
 	if err != nil {
-		CryoUtils.ErrorLog.Println("Unable to determine if file was symlink:", path)
+		CryoUtils.ErrorLog.Println("无法确定文件是否是符号链接:", path)
 		panic(err)
 	}
 
@@ -154,7 +160,7 @@ func isSubPath(parent string, sub string) bool {
 
 // Write a file with a given string
 func writeFile(path string, contents string) error {
-	CryoUtils.InfoLog.Println("Writing", path)
+	CryoUtils.InfoLog.Println("正在写入", path)
 
 	tempPath := filepath.Join(InstallDirectory, "temp.txt")
 	// Try to remove tempfile just in case it exists for some reason
@@ -177,17 +183,17 @@ func writeFile(path string, contents string) error {
 	// Move the completed file to final location.
 	_, err = exec.Command("sudo", "mv", tempPath, path).Output()
 	if err != nil {
-		return fmt.Errorf("error moving temp file to final location")
+		return fmt.Errorf("将临时文件移动到最终位置时出错")
 	}
 
 	return nil
 }
 
 func removeFile(path string) error {
-	CryoUtils.InfoLog.Println("Removing", path)
+	CryoUtils.InfoLog.Println("删除中", path)
 	_, err := exec.Command("sudo", "rm", path).Output()
 	if err != nil {
-		CryoUtils.ErrorLog.Println("Couldn't delete", path, ", likely missing.")
+		CryoUtils.ErrorLog.Println("无法删除", path, ", 可能已丢失了。")
 	}
 	return nil
 }
@@ -227,7 +233,7 @@ func getListOfAttachedDrives() ([]string, error) {
 	for x := range info {
 		drives = append(drives, info[x].Mountpoint)
 	}
-	CryoUtils.InfoLog.Printf("Attached drives: %s", drives)
+	CryoUtils.InfoLog.Printf("附加硬盘: %s", drives)
 	return drives, nil
 }
 
@@ -265,7 +271,7 @@ func getUnitStatus(param string) (string, error) {
 
 func writeUnitFile(param string, value string) error {
 	path := filepath.Join(TmpFilesRoot, param+".conf")
-	CryoUtils.InfoLog.Println("Writing", value, "to", path, "to preserve", param, "setting...")
+	CryoUtils.InfoLog.Println("正在写入", value, "to", path, "保存", param, "设置中...")
 	contents := strings.ReplaceAll(TemplateUnitFile, "PARAM", UnitMatrix[param])
 	contents = strings.ReplaceAll(contents, "VALUE", value)
 	err := writeFile(path, contents)
@@ -278,7 +284,7 @@ func writeUnitFile(param string, value string) error {
 
 func removeUnitFile(param string) error {
 	path := filepath.Join(TmpFilesRoot, param+".conf")
-	CryoUtils.InfoLog.Println("Removing", path, "to revert", param, "setting...")
+	CryoUtils.InfoLog.Println("删除中", path, "恢复", param, "设置中...")
 	err := removeFile(path)
 	if err != nil {
 		CryoUtils.ErrorLog.Println(err)
@@ -288,7 +294,7 @@ func removeUnitFile(param string) error {
 }
 
 func setUnitValue(param string, value string) error {
-	CryoUtils.InfoLog.Println("Writing", value, "for param", param, "to memory.")
+	CryoUtils.InfoLog.Println("正在写入", value, "参数", param, "到内存。")
 	// This mess is the only way I could find to push directly to unit files, without requiring
 	// a sudo password on installation to change capabilities.
 	echoCmd := exec.Command("echo", value)
@@ -322,7 +328,7 @@ func getHumanVRAMSize(size int) string {
 
 func removeGameData(removeList []string, locations []string) {
 
-	CryoUtils.InfoLog.Println("Removing the following content:")
+	CryoUtils.InfoLog.Println("删除以下内容:")
 	for i := range removeList {
 		for j := range locations {
 			path := filepath.Join(locations[j], removeList[i])

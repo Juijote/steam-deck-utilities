@@ -19,7 +19,14 @@ package internal
 import (
 	"strconv"
 	"strings"
+
+	"os"
 )
+
+func init() {
+	//设置中文字体
+	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
+}
 
 // ChangeSwapSizeCLI Change the swap file size to the specified size in GB
 func ChangeSwapSizeCLI(size int, isUI bool) error {
@@ -60,7 +67,7 @@ func ChangeSwapSizeCLI(size int, isUI bool) error {
 
 func UseRecommendedSettings() error {
 	// Change swap
-	CryoUtils.InfoLog.Println("Starting swap file resize...")
+	CryoUtils.InfoLog.Println("开始调整交换文件大小...")
 	availableSpace, err := getFreeSpace("/home")
 	if err != nil {
 		return err
@@ -93,90 +100,90 @@ func UseRecommendedSettings() error {
 			return err
 		}
 	}
-	CryoUtils.InfoLog.Println("Swap file resized, changing swappiness...")
+	CryoUtils.InfoLog.Println("调整交换文件大小，改变交换性能...")
 	err = ChangeSwappiness(RecommendedSwappiness)
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("Swappiness changed, enabling HugePages...")
+	CryoUtils.InfoLog.Println("交换功能已更改，启用大页面...")
 	err = SetHugePages()
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("HugePages enabled, setting compaction proactiveness...")
+	CryoUtils.InfoLog.Println("启用大页面，设置主动压缩...")
 	err = SetCompactionProactiveness()
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("Compaction proactiveness changed, disabling hugePage defragmentation...")
+	CryoUtils.InfoLog.Println("主动压缩已更改，禁用大页面碎片整理...")
 	err = SetDefrag()
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("HugePage defragmentation disabled, setting page lock unfairness...")
+	CryoUtils.InfoLog.Println("禁用大页面碎片整理，设置页面锁非公平性...")
 	err = SetPageLockUnfairness()
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("Page lock unfairness changed, enabling Shared Memory...")
+	CryoUtils.InfoLog.Println("页面锁不公平已更改，启用共享内存...")
 	err = SetShMem()
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("All settings configured!")
+	CryoUtils.InfoLog.Println("所有设置已配置！")
 	return nil
 }
 
 func UseStockSettings() error {
-	CryoUtils.InfoLog.Println("Resizing swap file to 1GB...")
+	CryoUtils.InfoLog.Println("将交换文件大小调整为 1GB...")
 	// Revert swap file size
 	err := ChangeSwapSizeCLI(DefaultSwapSize, true)
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("Setting swappiness to 100...")
+	CryoUtils.InfoLog.Println("将交换性设置为 100...")
 	// Revert swappiness
 	err = ChangeSwappiness(DefaultSwappiness)
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("Disabling HugePages...")
+	CryoUtils.InfoLog.Println("禁用大页面...")
 	// Enable HugePages
 	err = RevertHugePages()
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("Reverting compaction proactiveness...")
+	CryoUtils.InfoLog.Println("恢复主动压缩...")
 	err = RevertCompactionProactiveness()
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("Enabling hugePage defragmentation...")
+	CryoUtils.InfoLog.Println("启用大页面碎片整理...")
 	err = RevertDefrag()
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("Reverting page lock unfairness...")
+	CryoUtils.InfoLog.Println("恢复页面锁定的不公正性...")
 	err = RevertPageLockUnfairness()
 	if err != nil {
 		return err
 	}
 
-	CryoUtils.InfoLog.Println("Disabling shared memory in hugepages...")
+	CryoUtils.InfoLog.Println("禁用大页面中的共享内存...")
 	err = RevertShMem()
 	if err != nil {
-		CryoUtils.InfoLog.Println("All settings reverted to default!")
+		CryoUtils.InfoLog.Println("所有设置恢复为默认值！")
 	}
 
 	return nil

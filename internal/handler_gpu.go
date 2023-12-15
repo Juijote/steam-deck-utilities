@@ -6,22 +6,29 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"os"
 )
+
+func init() {
+	//设置中文字体
+	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
+}
 
 // Get the current VRAM
 func getVRAMValue() (int, error) {
 	cmd, err := exec.Command("glxinfo", "-B").Output()
 
 	// Extract video memory
-	re := regexp.MustCompile(`Video memory: [0-9]+`)
+	re := regexp.MustCompile(`显存: [0-9]+`)
 	match := re.FindStringSubmatch(string(cmd))
 
 	if err != nil || match == nil {
-		return 100, fmt.Errorf("error getting current VRAM")
+		return 100, fmt.Errorf("获取当前显存时出错")
 	}
 
 	output := strings.Split(match[0], " ")[2]
-	CryoUtils.InfoLog.Println("Found a VRAM of", output)
+	CryoUtils.InfoLog.Println("找到显存", output)
 	vram, _ := strconv.Atoi(output)
 
 	return vram, nil

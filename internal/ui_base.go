@@ -31,7 +31,7 @@ import (
 
 func init() {
 	//设置中文字体
-	os.Setenv("FYNE_FONT", "/home/deck/.fonts/l/LXGWNeoZhiSong.ttf")
+	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
 }
 
 func InitUI() {
@@ -55,7 +55,7 @@ func (app *Config) makeUI() {
 
 	// Show a disclaimer that I'm not responsible for damage.
 	dialog.ShowConfirm("免责声明",
-		"此脚本由 CryoByte33 制作，Juij 汉化，用于调整 Steam Deck 上交换文件的大小。\n\n"+
+		"此脚本由 CryoByte33 制作，Juij 汉化（更新下载：https://i.juij.eu.org/CryoUtilities），用于调整 Steam Deck 上交换文件的大小。\n\n"+
 			"免责声明：对任何人造成的损害不承担任何责任\n"+
 			"执行此操作的设备，所有责任均由用户承担。\n\n"+
 			"接受这些条款吗？",

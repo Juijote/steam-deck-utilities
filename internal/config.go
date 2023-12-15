@@ -20,10 +20,17 @@ import (
 	"image/color"
 	"os"
 	"path/filepath"
+
+	"os"
 )
 
+func init() {
+	//设置中文字体
+	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
+}
+
 // CurrentVersionNumber Version number to build with, Fyne can't support build flags just yet.
-var CurrentVersionNumber = "2.2.1"
+var CurrentVersionNumber = "v2.2.1 [Juij 汉化] [2023-12-15]"
 
 // Get home Directory
 var HomeDirectory, _ = os.UserHomeDir()

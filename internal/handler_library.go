@@ -24,6 +24,11 @@ import (
 	"github.com/andygrunwald/vdf"
 )
 
+func init() {
+	//设置中文字体
+	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
+}
+
 type Library struct {
 	Path           string
 	InstalledGames []int
@@ -40,18 +45,18 @@ func (lib *Library) listGames() {
 func findDataFolders() ([]Library, error) {
 	libraries, err := parseVDF(LibraryVDFLocation)
 	if err != nil {
-		CryoUtils.ErrorLog.Println("Error parsing VDF at", LibraryVDFLocation)
+		CryoUtils.ErrorLog.Println("解析安装游戏列表时出错", LibraryVDFLocation)
 		return nil, err
 	}
 
-	CryoUtils.InfoLog.Println("Loading libraries saved in VDF...")
+	CryoUtils.InfoLog.Println("正在加载保存在安装游戏列表中的库...")
 	for x := range libraries {
 		// If the library was added manually, remove the end of the path
 		if strings.HasSuffix(libraries[x].Path, "SteamLibrary") {
-			CryoUtils.InfoLog.Println("Found manually added library at", libraries[x].Path)
+			CryoUtils.InfoLog.Println("找到手动添加的库", libraries[x].Path)
 			libraries[x].Path = strings.ReplaceAll(libraries[x].Path, "/SteamLibrary", "")
 		} else {
-			CryoUtils.InfoLog.Println("Found library at", libraries[x].Path)
+			CryoUtils.InfoLog.Println("找到库", libraries[x].Path)
 		}
 	}
 

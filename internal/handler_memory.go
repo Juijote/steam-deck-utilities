@@ -16,10 +16,19 @@
 
 package internal
 
+import (
+	"os"
+)
+
+func init() {
+	//设置中文字体
+	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
+}
+
 func getHugePagesStatus() bool {
 	status, err := getUnitStatus("hugepages")
 	if err != nil {
-		CryoUtils.ErrorLog.Println("Unable to get current hugepages value")
+		CryoUtils.ErrorLog.Println("无法获取当前的大页面值")
 		return false
 	}
 	if status == RecommendedHugePages {
@@ -31,7 +40,7 @@ func getHugePagesStatus() bool {
 func getCompactionProactivenessStatus() bool {
 	status, err := getUnitStatus("compaction_proactiveness")
 	if err != nil {
-		CryoUtils.ErrorLog.Println("Unable to get current compaction_proactiveness")
+		CryoUtils.ErrorLog.Println("无法获取当前的压缩主动性")
 		return false
 	}
 	if status == RecommendedCompactionProactiveness {
@@ -43,7 +52,7 @@ func getCompactionProactivenessStatus() bool {
 func getPageLockUnfairnessStatus() bool {
 	status, err := getUnitStatus("page_lock_unfairness")
 	if err != nil {
-		CryoUtils.ErrorLog.Println("Unable to get current page_lock_unfairness")
+		CryoUtils.ErrorLog.Println("无法获取当前的页面锁定不公平值")
 		return false
 	}
 	if status == RecommendedPageLockUnfairness {
@@ -55,7 +64,7 @@ func getPageLockUnfairnessStatus() bool {
 func getShMemStatus() bool {
 	status, err := getUnitStatus("shmem_enabled")
 	if err != nil {
-		CryoUtils.ErrorLog.Println("Unable to get current shmem_enabled")
+		CryoUtils.ErrorLog.Println("无法获取当前已启用的内存管理 shmem_enabled")
 		return false
 	}
 	if status == RecommendedShMem {
@@ -67,7 +76,7 @@ func getShMemStatus() bool {
 func getDefragStatus() bool {
 	status, err := getUnitStatus("defrag")
 	if err != nil {
-		CryoUtils.ErrorLog.Println("Unable to get current defrag")
+		CryoUtils.ErrorLog.Println("无法获取当前碎片整理")
 		return false
 	}
 	if status == RecommendedHugePageDefrag {
@@ -157,7 +166,7 @@ func TogglePageLockUnfairness() error {
 }
 
 func SetHugePages() error {
-	CryoUtils.InfoLog.Println("Enabling hugepages...")
+	CryoUtils.InfoLog.Println("启用大页面...")
 	// Remove a file accidentally included in a beta for testing
 	_ = removeFile(NHPTestingFile)
 	err := setUnitValue("hugepages", RecommendedHugePages)
@@ -172,7 +181,7 @@ func SetHugePages() error {
 }
 
 func RevertHugePages() error {
-	CryoUtils.InfoLog.Println("Disabling hugepages...")
+	CryoUtils.InfoLog.Println("禁用大页面...")
 	err := setUnitValue("hugepages", DefaultHugePages)
 	if err != nil {
 		return err
@@ -185,7 +194,7 @@ func RevertHugePages() error {
 }
 
 func SetCompactionProactiveness() error {
-	CryoUtils.InfoLog.Println("Setting compaction_proactiveness...")
+	CryoUtils.InfoLog.Println("设置压缩主动性...")
 	err := setUnitValue("compaction_proactiveness", RecommendedCompactionProactiveness)
 	if err != nil {
 		return err
@@ -198,7 +207,7 @@ func SetCompactionProactiveness() error {
 }
 
 func RevertCompactionProactiveness() error {
-	CryoUtils.InfoLog.Println("Disabling compaction_proactiveness...")
+	CryoUtils.InfoLog.Println("禁用压缩主动性...")
 	err := setUnitValue("compaction_proactiveness", DefaultCompactionProactiveness)
 	if err != nil {
 		return err
@@ -211,7 +220,7 @@ func RevertCompactionProactiveness() error {
 }
 
 func SetPageLockUnfairness() error {
-	CryoUtils.InfoLog.Println("Enabling page_lock_unfairness...")
+	CryoUtils.InfoLog.Println("启用页面锁定不公平...")
 	err := setUnitValue("page_lock_unfairness", RecommendedPageLockUnfairness)
 	if err != nil {
 		return err
@@ -224,7 +233,7 @@ func SetPageLockUnfairness() error {
 }
 
 func RevertPageLockUnfairness() error {
-	CryoUtils.InfoLog.Println("Disabling page_lock_unfairness...")
+	CryoUtils.InfoLog.Println("禁用页面锁定不公平...")
 	err := setUnitValue("page_lock_unfairness", DefaultPageLockUnfairness)
 	if err != nil {
 		return err
@@ -237,7 +246,7 @@ func RevertPageLockUnfairness() error {
 }
 
 func SetShMem() error {
-	CryoUtils.InfoLog.Println("Enabling shmem_enabled...")
+	CryoUtils.InfoLog.Println("启用内存管理 shmem_enabled")
 	err := setUnitValue("shmem_enabled", RecommendedShMem)
 	if err != nil {
 		return err
@@ -250,7 +259,7 @@ func SetShMem() error {
 }
 
 func RevertShMem() error {
-	CryoUtils.InfoLog.Println("Disabling shmem_enabled...")
+	CryoUtils.InfoLog.Println("禁用内存管理 shmem_enabled")
 	err := setUnitValue("shmem_enabled", DefaultShMem)
 	if err != nil {
 		return err
@@ -263,7 +272,7 @@ func RevertShMem() error {
 }
 
 func SetDefrag() error {
-	CryoUtils.InfoLog.Println("Enabling shmem_enabled...")
+	CryoUtils.InfoLog.Println("启用内存管理 shmem_enabled")
 	err := setUnitValue("defrag", RecommendedHugePageDefrag)
 	if err != nil {
 		return err
@@ -276,7 +285,7 @@ func SetDefrag() error {
 }
 
 func RevertDefrag() error {
-	CryoUtils.InfoLog.Println("Disabling shmem_enabled...")
+	CryoUtils.InfoLog.Println("禁用内存管理 shmem_enabled")
 	err := setUnitValue("defrag", DefaultHugePageDefrag)
 	if err != nil {
 		return err

@@ -24,7 +24,14 @@ import (
 	"path/filepath"
 	"sort"
 	"strconv"
+	
+	"os"
 )
+
+func init() {
+	//设置中文字体
+	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
+}
 
 type GameStatus struct {
 	GameName    string
@@ -75,9 +82,9 @@ func createGameDataList() (*widget.CheckGroup, error) {
 		}
 
 		if localGames[sortedMap[key]].IsInstalled {
-			optionStr = fmt.Sprintf("%d - %s - Installed", sortedMap[key], gameStr)
+			optionStr = fmt.Sprintf("%d - %s - 已安装", sortedMap[key], gameStr)
 		} else {
-			optionStr = fmt.Sprintf("%d - %s - Not Installed", sortedMap[key], gameStr)
+			optionStr = fmt.Sprintf("%d - %s - 未安装", sortedMap[key], gameStr)
 		}
 		cleanupList.Append(optionStr)
 	}
@@ -174,7 +181,7 @@ func getDataToMoveUI(data DataToMove) (*widget.List, *widget.List, error) {
 			return len(data.right)
 		},
 		func() fyne.CanvasObject {
-			return widget.NewLabel("Left Side")
+			return widget.NewLabel("左侧")
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
 			gameInt, _ := strconv.Atoi(data.right[i])
@@ -188,7 +195,7 @@ func getDataToMoveUI(data DataToMove) (*widget.List, *widget.List, error) {
 			return len(data.left)
 		},
 		func() fyne.CanvasObject {
-			return widget.NewLabel("Right Side")
+			return widget.NewLabel("右侧")
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
 			gameInt, _ := strconv.Atoi(data.left[i])
@@ -201,16 +208,16 @@ func getDataToMoveUI(data DataToMove) (*widget.List, *widget.List, error) {
 }
 
 func (app *Config) refreshSwapContent() {
-	app.InfoLog.Println("Refreshing Swap data...")
+	app.InfoLog.Println("正在刷新交换数据...")
 	swap, err := getSwapFileSize()
 	if err != nil {
 		CryoUtils.ErrorLog.Println(err)
-		swapStr := "Current Swap Size: Unknown"
+		swapStr := "当前交换大小: 未知"
 		app.SwapText.Text = swapStr
 		app.SwapText.Color = Gray
 	} else {
 		humanSwapSize := swap / int64(GigabyteMultiplier)
-		swapStr := fmt.Sprintf("Current Swap Size: %dGB", humanSwapSize)
+		swapStr := fmt.Sprintf("当前交换大小: %dGB", humanSwapSize)
 		app.SwapText.Text = swapStr
 		if swap >= RecommendedSwapSizeBytes {
 			app.SwapText.Color = Green
@@ -223,15 +230,15 @@ func (app *Config) refreshSwapContent() {
 }
 
 func (app *Config) refreshSwappinessContent() {
-	app.InfoLog.Println("Refreshing Swappiness data...")
+	app.InfoLog.Println("正在刷新交换性数据...")
 	swappiness, err := getSwappinessValue()
 	if err != nil {
 		CryoUtils.ErrorLog.Println(err)
-		swappinessStr := "Current Swappiness: Unknown"
+		swappinessStr := "当前交换性: 未知"
 		app.SwappinessText.Text = swappinessStr
 		app.SwappinessText.Color = Gray
 	} else {
-		swappinessStr := fmt.Sprintf("Current Swappiness: %d", swappiness)
+		swappinessStr := fmt.Sprintf("当前交换性: %d", swappiness)
 		app.SwappinessText.Text = swappinessStr
 		if strconv.Itoa(swappiness) == RecommendedSwappiness {
 			app.SwappinessText.Color = Green
@@ -244,12 +251,12 @@ func (app *Config) refreshSwappinessContent() {
 }
 
 func (app *Config) refreshHugePagesContent() {
-	app.InfoLog.Println("Refreshing HugePages data...")
+	app.InfoLog.Println("正在刷新大页面数据...")
 	if getHugePagesStatus() {
-		app.HugePagesButton.Text = "Disable HugePages"
+		app.HugePagesButton.Text = "禁用大页面"
 		app.HugePagesText.Color = Green
 	} else {
-		app.HugePagesButton.Text = "Enable HugePages"
+		app.HugePagesButton.Text = "启用大页面"
 		app.HugePagesText.Color = Red
 	}
 	app.HugePagesButton.Refresh()
@@ -257,12 +264,12 @@ func (app *Config) refreshHugePagesContent() {
 }
 
 func (app *Config) refreshShMemContent() {
-	app.InfoLog.Println("Refreshing shmem data...")
+	app.InfoLog.Println("正在刷新共享内存 shmem 数据...")
 	if getShMemStatus() {
-		app.ShMemButton.Text = "Disable Shared Memory in THP"
+		app.ShMemButton.Text = "在 THP 中禁用共享内存"
 		app.ShMemText.Color = Green
 	} else {
-		app.ShMemButton.Text = "Enable Shared Memory in THP"
+		app.ShMemButton.Text = "在 THP 中启用共享内存"
 		app.ShMemText.Color = Red
 	}
 	app.ShMemButton.Refresh()
@@ -271,12 +278,12 @@ func (app *Config) refreshShMemContent() {
 }
 
 func (app *Config) refreshCompactionProactivenessContent() {
-	app.InfoLog.Println("Refreshing compaction proactiveness data...")
+	app.InfoLog.Println("正在刷新压缩主动性数据...")
 	if getCompactionProactivenessStatus() {
-		app.CompactionProactivenessButton.Text = "Revert Compaction Proactiveness"
+		app.CompactionProactivenessButton.Text = "恢复压缩主动性"
 		app.CompactionProactivenessText.Color = Green
 	} else {
-		app.CompactionProactivenessButton.Text = "Set Compaction Proactiveness"
+		app.CompactionProactivenessButton.Text = "设置压缩主动性"
 		app.CompactionProactivenessText.Color = Red
 	}
 	app.CompactionProactivenessButton.Refresh()
@@ -284,12 +291,12 @@ func (app *Config) refreshCompactionProactivenessContent() {
 }
 
 func (app *Config) refreshDefragContent() {
-	app.InfoLog.Println("Refreshing defragmentation data...")
+	app.InfoLog.Println("正在刷新碎片整理数据...")
 	if getDefragStatus() {
-		app.DefragButton.Text = "Enable Huge Page Defragmentation"
+		app.DefragButton.Text = "启用大页面碎片整理"
 		app.DefragText.Color = Green
 	} else {
-		app.DefragButton.Text = "Disable Huge Page Defragmentation"
+		app.DefragButton.Text = "禁用大页面碎片整理"
 		app.DefragText.Color = Red
 	}
 	app.DefragButton.Refresh()
@@ -297,12 +304,12 @@ func (app *Config) refreshDefragContent() {
 }
 
 func (app *Config) refreshPageLockUnfairnessContent() {
-	app.InfoLog.Println("Refreshing page lock unfairness data...")
+	app.InfoLog.Println("正在刷新页面锁定不公平数据...")
 	if getPageLockUnfairnessStatus() {
-		app.PageLockUnfairnessButton.Text = "Revert Page Lock Unfairness"
+		app.PageLockUnfairnessButton.Text = "恢复页面锁定不公平"
 		app.PageLockUnfairnessText.Color = Green
 	} else {
-		app.PageLockUnfairnessButton.Text = "Set Page Lock Unfairness"
+		app.PageLockUnfairnessButton.Text = "设置页面锁定不公平"
 		app.PageLockUnfairnessText.Color = Red
 	}
 	app.PageLockUnfairnessButton.Refresh()
@@ -310,16 +317,16 @@ func (app *Config) refreshPageLockUnfairnessContent() {
 }
 
 func (app *Config) refreshVRAMContent() {
-	app.InfoLog.Println("Refreshing VRAM data...")
+	app.InfoLog.Println("正在刷新显存数据...")
 	vram, err := getVRAMValue()
 	if err != nil || vram == 0 {
 		CryoUtils.ErrorLog.Println(err)
-		vramStr := fmt.Sprintf("Current VRAM: Unknown")
+		vramStr := fmt.Sprintf("当前显存: 未知")
 		app.VRAMText.Text = vramStr
 		app.VRAMText.Color = Gray
 	} else {
 		humanVRAMSize := getHumanVRAMSize(vram)
-		vramStr := fmt.Sprintf("Current VRAM: %s", humanVRAMSize)
+		vramStr := fmt.Sprintf("当前显存: %s", humanVRAMSize)
 		app.VRAMText.Text = vramStr
 		if vram == RecommendedVRAM {
 			app.VRAMText.Color = Green

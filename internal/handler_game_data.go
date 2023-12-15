@@ -23,7 +23,14 @@ import (
 	"strconv"
 
 	cp "github.com/otiai10/copy"
+
+	"os"
 )
+
+func init() {
+	//设置中文字体
+	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
+}
 
 type StorageStatus struct {
 	LeftCompatDirectories  []string
@@ -45,7 +52,7 @@ func getDirectoryList(path string, includeSymlinks bool) ([]string, error) {
 	// Get a list of all files in directory
 	files, err := os.ReadDir(path)
 	if err != nil {
-		CryoUtils.ErrorLog.Println("Unable to list files in", path)
+		CryoUtils.ErrorLog.Println("无法列出文件", path)
 		return nil, err
 	}
 
@@ -166,29 +173,29 @@ func (d *DataToMove) getDataToMove(left string, right string) error {
 
 	for i := range libraries {
 		if isSubPath(left, libraries[i].Path) {
-			CryoUtils.InfoLog.Println("Library location selected as left:", libraries[i].Path)
+			CryoUtils.InfoLog.Println("选择的库位置为左侧:", libraries[i].Path)
 			// If the library is in the left-side parent directory
 			for _, game := range libraries[i].InstalledGames {
 				gameString := strconv.Itoa(game)
-				CryoUtils.InfoLog.Println("Library contains:", gameString)
+				CryoUtils.InfoLog.Println("库包含:", gameString)
 				// If game has files on the right side
 				if contains(storage.RightCompatDirectories, gameString) && contains(storage.RightShaderDirectories, gameString) {
 					d.right = append(d.right, gameString)
 				}
 			}
 		} else if isSubPath(right, libraries[i].Path) {
-			CryoUtils.InfoLog.Println("Library location selected as right:", libraries[i].Path)
+			CryoUtils.InfoLog.Println("选择的库位置为右侧:", libraries[i].Path)
 			// If the library is in the right-side parent directory
 			for _, game := range libraries[i].InstalledGames {
 				gameString := strconv.Itoa(game)
-				CryoUtils.InfoLog.Println("Library contains:", gameString)
+				CryoUtils.InfoLog.Println("库包含:", gameString)
 				// If game is installed on the right side AND has files on the left side
 				if contains(storage.LeftCompatDirectories, gameString) && contains(storage.LeftShaderDirectories, gameString) {
 					d.left = append(d.left, gameString)
 				}
 			}
 		} else {
-			CryoUtils.InfoLog.Println("Library location not selected, skipping:", libraries[i].Path)
+			CryoUtils.InfoLog.Println("未选择库位置，跳过:", libraries[i].Path)
 		}
 	}
 	return nil
@@ -233,7 +240,7 @@ func moveGameData(data DataToMove, left string, right string) error {
 		}
 
 		// Copy the files
-		CryoUtils.InfoLog.Println("Moving " + directory + " left...")
+		CryoUtils.InfoLog.Println("移动 " + directory + " 往左...")
 		err := cp.Copy(rightCompatDir, leftCompatDir)
 		if err != nil {
 			CryoUtils.ErrorLog.Println(err)
@@ -246,14 +253,14 @@ func moveGameData(data DataToMove, left string, right string) error {
 		}
 
 		// Remove the old files on the right
-		CryoUtils.InfoLog.Println("Removing old " + rightCompatDir)
+		CryoUtils.InfoLog.Println("删除旧的 " + rightCompatDir)
 		err = os.RemoveAll(rightCompatDir)
 		if err != nil {
 			CryoUtils.ErrorLog.Println(err)
 			return err
 		}
 		waitForDeletion(rightCompatPath, directory)
-		CryoUtils.InfoLog.Println("Removing old " + rightShaderDir)
+		CryoUtils.InfoLog.Println("删除旧的 " + rightShaderDir)
 		err = os.RemoveAll(rightShaderDir)
 		if err != nil {
 			CryoUtils.ErrorLog.Println(err)
@@ -264,7 +271,7 @@ func moveGameData(data DataToMove, left string, right string) error {
 		// If the destination is NOT on the SSD, make symlinks
 		if leftCompatPath != SteamCompatRoot {
 			// Create symlinks on the SSD to the new location
-			CryoUtils.InfoLog.Println("Creating symlink to new path on SSD...")
+			CryoUtils.InfoLog.Println("在固态硬盘上创建指向新路径的符号链接...")
 			err = os.Symlink(leftCompatDir, filepath.Join(SteamCompatRoot, directory))
 			if err != nil {
 				CryoUtils.ErrorLog.Println(err)
@@ -298,7 +305,7 @@ func moveGameData(data DataToMove, left string, right string) error {
 		}
 
 		// Copy the files
-		CryoUtils.InfoLog.Println("Moving " + directory + " right...")
+		CryoUtils.InfoLog.Println("移动 " + directory + " 往右...")
 		err := cp.Copy(leftCompatDir, rightCompatDir)
 		if err != nil {
 			CryoUtils.ErrorLog.Println(err)
@@ -311,14 +318,14 @@ func moveGameData(data DataToMove, left string, right string) error {
 		}
 
 		// Remove the old files on the left
-		CryoUtils.InfoLog.Println("Removing old " + leftCompatDir)
+		CryoUtils.InfoLog.Println("删除旧的 " + leftCompatDir)
 		err = os.RemoveAll(leftCompatDir)
 		if err != nil {
 			CryoUtils.ErrorLog.Println(err)
 			return err
 		}
 		waitForDeletion(leftCompatPath, directory)
-		CryoUtils.InfoLog.Println("Removing old " + leftShaderDir)
+		CryoUtils.InfoLog.Println("删除旧的 " + leftShaderDir)
 		err = os.RemoveAll(leftShaderDir)
 		if err != nil {
 			CryoUtils.ErrorLog.Println(err)
@@ -329,7 +336,7 @@ func moveGameData(data DataToMove, left string, right string) error {
 		// If the destination is NOT on the SSD, make symlinks
 		if rightCompatPath != SteamCompatRoot {
 			// Create symlinks on the SSD to the new location
-			CryoUtils.InfoLog.Println("Creating symlink to new path on SSD...")
+			CryoUtils.InfoLog.Println("在固态硬盘上创建指向新路径的符号链接...")
 			err = os.Symlink(rightCompatDir, filepath.Join(SteamCompatRoot, directory))
 			if err != nil {
 				CryoUtils.ErrorLog.Println(err)
@@ -381,7 +388,7 @@ func (d *DataToMove) confirmDirectoryStatus(left string, right string) (bool, er
 	if len(unmoved) == 0 {
 		return true, nil
 	} else {
-		return false, fmt.Errorf("the following directories remain in the incorrect locations:\n"+
+		return false, fmt.Errorf("下列目录保留在不正确的位置:\n"+
 			"%s", unmoved)
 	}
 }

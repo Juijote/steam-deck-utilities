@@ -26,12 +26,19 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
+
+	"os"
 )
+
+func init() {
+	//设置中文字体
+	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
+}
 
 func syncGameDataWindow() {
 	var selectionContainer *fyne.Container
 	// Create a new window
-	w := CryoUtils.App.NewWindow("Sync Game Data")
+	w := CryoUtils.App.NewWindow("同步游戏数据")
 
 	driveList, err := getListOfAttachedDrives()
 	if err != nil {
@@ -40,7 +47,7 @@ func syncGameDataWindow() {
 
 	if len(driveList) > 1 {
 		// Place a prompt near the top of the window
-		prompt := canvas.NewText("Please select the devices you'd like to sync data between.", nil)
+		prompt := canvas.NewText("请选择你想要同步数据的设备。", nil)
 		prompt.TextSize, prompt.TextStyle = 18, fyne.TextStyle{Bold: true}
 
 		// Make the list widgets with initial contents, excluding what the other has pre-selected
@@ -65,10 +72,10 @@ func syncGameDataWindow() {
 			leftList.Options = removeElementFromStringSlice(s, driveList)
 		}
 
-		cancelButton := widget.NewButton("Cancel", func() {
+		cancelButton := widget.NewButton("取消", func() {
 			w.Close()
 		})
-		submitButton := widget.NewButton("Submit", func() {
+		submitButton := widget.NewButton("提交", func() {
 			selectionContainer.Hide()
 			w.CenterOnScreen()
 			populateGameDataWindow(w, leftSelected, rightSelected)
@@ -77,10 +84,10 @@ func syncGameDataWindow() {
 		selectionContainer = container.NewVBox(prompt, leftList, rightList, buttonBar)
 	} else {
 		// Place a prompt near the top of the window
-		prompt := canvas.NewText("Not enough drives attached to sync data", Red)
+		prompt := canvas.NewText("连接的硬盘空间不足，无法同步数据", Red)
 		prompt.TextSize, prompt.TextStyle = 18, fyne.TextStyle{Bold: true}
 
-		cancelButton := widget.NewButton("Cancel", func() {
+		cancelButton := widget.NewButton("取消", func() {
 			w.Close()
 		})
 
@@ -99,7 +106,7 @@ func populateGameDataWindow(w fyne.Window, left string, right string) {
 	var data DataToMove
 
 	p := widget.NewProgressBarInfinite()
-	d := dialog.NewCustom("Finding data to move...", "Dismiss", p, w)
+	d := dialog.NewCustom("寻找要移动的数据...", "解除", p, w)
 	d.Show()
 
 	// Get a list of data to move
@@ -123,19 +130,19 @@ func populateGameDataWindow(w fyne.Window, left string, right string) {
 	}
 
 	// Place a prompt near the top of the window
-	prompt := canvas.NewText("Please confirm that it is okay to move this data:", nil)
+	prompt := canvas.NewText("请确认可以移动此数据:", nil)
 	prompt.TextSize, prompt.TextStyle = 18, fyne.TextStyle{Bold: true}
 
 	// User-presentable strings
-	leftDataStr := fmt.Sprintf("Data to be moved to %s", right)
-	leftSizeStr := fmt.Sprintf("Total Size: %.2fGB", float64(data.leftSize)/float64(GigabyteMultiplier))
-	rightDataStr := fmt.Sprintf("Data to be moved to %s", left)
-	rightSizeStr := fmt.Sprintf("Total Size: %.2fGB", float64(data.rightSize)/float64(GigabyteMultiplier))
+	leftDataStr := fmt.Sprintf("数据要移动到 %s", right)
+	leftSizeStr := fmt.Sprintf("总大小: %.2fGB", float64(data.leftSize)/float64(GigabyteMultiplier))
+	rightDataStr := fmt.Sprintf("数据要移动到 %s", left)
+	rightSizeStr := fmt.Sprintf("总大小: %.2fGB", float64(data.rightSize)/float64(GigabyteMultiplier))
 
 	// Deal with lack of space on left
 	if leftSpaceAvailable < data.rightSize {
 		leftCard = widget.NewCard(leftDataStr, "",
-			canvas.NewText("Error: Not enough space available on destination drive.", Red))
+			canvas.NewText("错误：目标硬盘上没有足够的可用空间。", Red))
 		// Provide a button to close the window
 		syncDataButton = widget.NewButton("Close", func() {
 			w.Close()
@@ -145,7 +152,7 @@ func populateGameDataWindow(w fyne.Window, left string, right string) {
 	// Deal with lack of space on right
 	if rightSpaceAvailable < data.leftSize {
 		rightCard = widget.NewCard(rightDataStr, "",
-			canvas.NewText("Error: Not enough space available on destination drive.", Red))
+			canvas.NewText("错误：目标硬盘上没有足够的可用空间。", Red))
 		// Provide a button to close the window
 		syncDataButton = widget.NewButton("Close", func() {
 			w.Close()
@@ -157,11 +164,11 @@ func populateGameDataWindow(w fyne.Window, left string, right string) {
 	if err != nil {
 		// Create an error in each card if directories can't be listed
 		leftCard = widget.NewCard(leftDataStr, "",
-			canvas.NewText("Error: Failed to get list of directories to be moved.", Red))
+			canvas.NewText("错误：无法获取要移动的目录列表。", Red))
 		rightCard = widget.NewCard(rightDataStr, "",
-			canvas.NewText("Error: Failed to get list of directories to be moved.", Red))
+			canvas.NewText("错误：无法获取要移动的目录列表。", Red))
 		// Provide a button to close the window
-		syncDataButton = widget.NewButton("Close", func() {
+		syncDataButton = widget.NewButton("关闭", func() {
 			w.Close()
 		})
 	}
@@ -171,7 +178,7 @@ func populateGameDataWindow(w fyne.Window, left string, right string) {
 		leftCard = widget.NewCard(rightDataStr, rightSizeStr, leftList)
 	} else {
 		leftCard = widget.NewCard(rightDataStr, "",
-			canvas.NewText("None! Everything is synced in this direction.", Green))
+			canvas.NewText("没有其它！所有数据都往这个方向同步。", Green))
 	}
 
 	// If there's anything to move right
@@ -179,18 +186,18 @@ func populateGameDataWindow(w fyne.Window, left string, right string) {
 		rightCard = widget.NewCard(leftDataStr, leftSizeStr, rightList)
 	} else {
 		rightCard = widget.NewCard(leftDataStr, "",
-			canvas.NewText("None! Everything is synced in this direction.", Green))
+			canvas.NewText("没有其它！所有数据都往这个方向同步。", Green))
 	}
 
 	// Create button if something can sync
 	if len(data.right) != 0 || len(data.left) != 0 {
-		syncDataButton = widget.NewButton("Confirm", func() {
+		syncDataButton = widget.NewButton("确认", func() {
 			// Do the actual sync
-			CryoUtils.InfoLog.Println("Sync data confirmed")
+			CryoUtils.InfoLog.Println("同步数据已确认")
 			progress := widget.NewProgressBar()
 			CryoUtils.MoveDataProgressBar = progress
 			progress.Resize(fyne.NewSize(500, 50))
-			tempVBox := container.NewVBox(canvas.NewText("Moving items, please wait...", nil), progress)
+			tempVBox := container.NewVBox(canvas.NewText("正在同步，请稍候...", nil), progress)
 			widget.ShowModalPopUp(tempVBox, w.Canvas())
 			err = moveGameData(data, left, right)
 			if err != nil {
@@ -200,10 +207,10 @@ func populateGameDataWindow(w fyne.Window, left string, right string) {
 				if err != nil {
 					presentErrorInUI(err, w)
 				} else {
-					CryoUtils.InfoLog.Println("All data moved properly, printing success!")
+					CryoUtils.InfoLog.Println("所有数据移动正常，复制成功！")
 					dialog.ShowInformation(
-						"Success!",
-						"Data move completed, all game data is synced to the appropriate device.",
+						"成功!",
+						"数据移动完成，所有游戏数据同步到相应设备。",
 						CryoUtils.MainWindow,
 					)
 					w.Close()
@@ -212,11 +219,11 @@ func populateGameDataWindow(w fyne.Window, left string, right string) {
 		})
 	} else {
 		// Otherwise, provide a button to close the window
-		syncDataButton = widget.NewButton("Close", func() {
+		syncDataButton = widget.NewButton("关闭", func() {
 			w.Close()
 		})
 	}
-	cancelButton := widget.NewButton("Cancel", func() {
+	cancelButton := widget.NewButton("取消", func() {
 		w.Close()
 	})
 
@@ -238,7 +245,7 @@ func cleanupDataWindow() {
 	var cleanupButton, cancelButton *widget.Button
 
 	// Create a new window
-	w := CryoUtils.App.NewWindow("Clean Game Data")
+	w := CryoUtils.App.NewWindow("清理游戏数据")
 
 	var removeList []string
 	cleanupList, err := createGameDataList()
@@ -257,16 +264,16 @@ func cleanupDataWindow() {
 	cleanupScroll := container.NewVScroll(cleanupList)
 
 	// Create an error in each card if directories can't be listed
-	cleanupCard = widget.NewCard("Clean Stale Game Data",
-		"Choose which game's prefixes and shadercache you would like to remove.",
+	cleanupCard = widget.NewCard("清理过时的游​​戏数据",
+		"选择要删除的游戏的前缀和着色器缓存。",
 		cleanupScroll)
-	cancelButton = widget.NewButton("Cancel", func() {
+	cancelButton = widget.NewButton("取消", func() {
 		w.Close()
 	})
-	cleanupButton = widget.NewButton("Delete Selected", func() {
-		dialog.ShowConfirm("Are you sure?", "Are you sure you want to delete these files?\n\n"+
-			"Please be sure to back up any Non-Steam-Cloud save games before\n"+
-			"deleting them using this tool, as any selected will be lost.",
+	cleanupButton = widget.NewButton("删除所选", func() {
+		dialog.ShowConfirm("你确定吗?", "确定要删除这些文件吗?\n\n"+
+			"请务必先备份所有非 Steam 云的游戏存档\n"+
+			"使用此工具删除它们，任何选定的内容都会丢失。",
 			func(b bool) {
 				if b {
 					possibleLocations, err := getListOfDataAllDataLocations()
@@ -289,10 +296,10 @@ func cleanupDataWindow() {
 			}, w)
 	})
 
-	cleanAllUninstalled := widget.NewButton("Delete All Uninstalled", func() {
-		dialog.ShowConfirm("Are you sure?", "Are you sure you want to delete these files?\n\n"+
-			"Please be sure to back up any Non-Steam-Cloud save games before\n"+
-			"deleting them using this tool, as any selected will be lost.",
+	cleanAllUninstalled := widget.NewButton("删除所有已卸载的", func() {
+		dialog.ShowConfirm("你确定吗?", "确定要删除这些文件吗?\n\n"+
+			"请务必先备份所有非 Steam 云的游戏存档\n"+
+			"使用此工具删除它们，任何选定的内容都会丢失。",
 			func(b bool) {
 				if !b {
 					w.Close()
@@ -307,8 +314,8 @@ func cleanupDataWindow() {
 				removeGameData(getUninstalledGamesData(), locations)
 
 				dialog.ShowInformation(
-					"Success!",
-					"Process completed!",
+					"成功!",
+					"操作完成!",
 					CryoUtils.MainWindow,
 				)
 				w.Close()
@@ -332,10 +339,10 @@ func cleanupDataWindow() {
 
 func swapSizeWindow() {
 	// Create a new window
-	w := CryoUtils.App.NewWindow("Change Swap Size")
+	w := CryoUtils.App.NewWindow("更改交换文件大小")
 
 	// Place a prompt near the top of the window
-	prompt := canvas.NewText("Please choose the new swap file size in gigabytes:", nil)
+	prompt := canvas.NewText("请选择新的交换文件大小（以 GB 为单位）:", nil)
 	prompt.TextSize, prompt.TextStyle = 18, fyne.TextStyle{Bold: true}
 
 	// Determine maximum available space for a swap file and construct a list of available sizes based on it
@@ -355,10 +362,10 @@ func swapSizeWindow() {
 	})
 
 	// Provide a button to submit the choice
-	swapResizeButton := widget.NewButton("Resize Swap File", func() {
+	swapResizeButton := widget.NewButton("调整交换文件大小", func() {
 		progress := widget.NewProgressBarInfinite()
-		d := dialog.NewCustom("Resizing Swap File, please be patient..."+
-			"(This can take up to 30 minutes)", "Quit", progress,
+		d := dialog.NewCustom("正在调整交换文件大小，请耐心等待..."+
+			"(这最多可能需要 30 分钟)", "退出", progress,
 			w,
 		)
 		d.Show()
@@ -369,9 +376,9 @@ func swapSizeWindow() {
 		} else {
 			d.Hide()
 			dialog.ShowInformation(
-				"Success!",
-				"Process completed! You can verify the file is resized by\n"+
-					"running 'ls -lash /home/swapfile' or 'swapon -s' in Konsole.",
+				"成功!",
+				"操作完成！你可以验证文件是否已调整大小\n"+
+					"在终端中运行 “ls -lash /home/swapfile” 或 “swapon -s”",
 				CryoUtils.MainWindow,
 			)
 			CryoUtils.refreshSwapContent()
@@ -397,7 +404,7 @@ func swapSizeWindow() {
 func changeSwapSizeGUI(size int) error {
 	// Disable swap temporarily
 	renewSudoAuth()
-	CryoUtils.InfoLog.Println("Disabling swap temporarily...")
+	CryoUtils.InfoLog.Println("暂时禁用交换...")
 	err := disableSwap()
 	if err != nil {
 		return err
@@ -425,10 +432,10 @@ func changeSwapSizeGUI(size int) error {
 
 func swappinessWindow() {
 	// Create a new window
-	w := CryoUtils.App.NewWindow("Change Swappiness")
+	w := CryoUtils.App.NewWindow("改变交换性")
 
 	// Place a prompt near the top of the window
-	prompt := canvas.NewText("Please choose the new swappiness.", nil)
+	prompt := canvas.NewText("请选择新的交换值。", nil)
 	prompt.TextSize, prompt.TextStyle = 18, fyne.TextStyle{Bold: true}
 
 	// Give the user a choice in swap file sizes
@@ -438,15 +445,15 @@ func swappinessWindow() {
 	})
 
 	// Provide a button to submit the choice
-	swappinessChangeButton := widget.NewButton("Change Swappiness", func() {
+	swappinessChangeButton := widget.NewButton("改变交换性", func() {
 		renewSudoAuth()
 		err := ChangeSwappiness(chosenSwappiness)
 		if err != nil {
 			presentErrorInUI(err, w)
 		} else {
 			dialog.ShowInformation(
-				"Success!",
-				"Swappiness change completed!",
+				"成功!",
+				"交换性变更完成!",
 				CryoUtils.MainWindow,
 			)
 			CryoUtils.refreshSwappinessContent()

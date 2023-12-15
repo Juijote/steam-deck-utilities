@@ -22,7 +22,14 @@ import (
 
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
+
+	"os"
 )
+
+func init() {
+	//设置中文字体
+	os.Setenv("FYNE_FONT", "/home/.deck/cryo_utilities/NotoSansSC.ttf")
+}
 
 // Renews sudo auth for GUI mode
 func renewSudoAuth() {
@@ -57,7 +64,7 @@ func renewSudoAuth() {
 // Test that the sudo password works
 func testAuth(password string) error {
 	progress := widget.NewProgressBarInfinite()
-	d := dialog.NewCustom("Testing Authentication", "Quit", progress,
+	d := dialog.NewCustom("测试验证", "退出", progress,
 		CryoUtils.MainWindow,
 	)
 	d.Show()
