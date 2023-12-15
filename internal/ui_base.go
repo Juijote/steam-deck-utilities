@@ -23,10 +23,10 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
-//	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	"./internal/theme"  // 替换为你实际的路径
+	"github.com/Juijote/steam-deck-utilities/internal/theme"  // 替换为你实际的路径
 )
 
 func InitUI() {
