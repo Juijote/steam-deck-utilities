@@ -22,18 +22,17 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/container/layout"
-	"fyne.io/fyne/v2/container/tab"
-	"fyne.io/fyne/v2/container/widget"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/widget"
 )
 
 func makeUI() {
 	// Your existing UI creation code here...
 
 	// Set font to a font that supports Chinese characters
-	fyne.CurrentApp().Settings().SetTheme(theme.LightTheme())
-	fyne.CurrentApp().Settings().Theme().Font(theme.TextFont()).SetStyle("Noto Sans CJK SC")
+	font := fyne.TextStyle{Bold: true, Monospace: true, Italic: true, Family: "Noto Sans CJK SC"}
+	fyne.CurrentApp().Settings().Theme().Font(style.Text, font)
 }
 
 func InitUI() {
@@ -47,7 +46,7 @@ func InitUI() {
 	// Show and run the app
 	title := "CryoUtilities " + CurrentVersionNumber
 	CryoUtils.MainWindow = fyneApp.NewWindow(title)
-	CryoUtils.makeUI()
+	makeUI()
 	CryoUtils.MainWindow.CenterOnScreen()
 	CryoUtils.MainWindow.ShowAndRun()
 }
