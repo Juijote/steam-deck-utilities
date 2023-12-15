@@ -34,8 +34,10 @@ func InitUI() {
 	screenSizer := NewScreenSizer()
 	screenSizer.UpdateScaleForActiveMonitor()
 	fyneApp := app.NewWithID("io.cryobyte.cryoutilities")
+
 	// 设置主题
-	fyneApp.Settings().SetTheme(&myTheme{})
+	fyneApp.Settings().SetTheme(&theme.myTheme{})
+
 	CryoUtils.App = fyneApp
 	CryoUtils.App.SetIcon(ResourceIconPng)
 
