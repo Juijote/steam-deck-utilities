@@ -26,7 +26,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	"./theme"
+	"github.com/Juijote/steam-deck-utilities/theme"
 )
 
 func InitUI() {
