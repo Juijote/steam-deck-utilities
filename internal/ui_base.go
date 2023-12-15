@@ -26,6 +26,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"	
 	"github.com/lengzhao/font"
+	"github.com/lengzhao/os"
 )
 
 func InitUI() {
