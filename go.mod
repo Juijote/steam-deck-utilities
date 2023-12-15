@@ -39,5 +39,5 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	honnef.co/go/js/dom v0.0.0-20210725211120-f030747120f2 // indirect
-	github.com/Juijote/steam-deck-utilities/theme v0.0.0-20231215080758-665c44e7010a
+	github.com/Juijote/steam-deck-utilities/internal/theme v0.0.0-20231215080758-665c44e7010a
 )
