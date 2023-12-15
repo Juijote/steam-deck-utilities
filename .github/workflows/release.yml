@@ -64,19 +64,19 @@ jobs:
           delete_release: true
           repo: ${{ github.repository }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CRYOUTILITIES }}
 
       - name: Create Unique Release
         shell: bash
         run: hub release create ${{ env.release_name }} -m ${{ env.release_name }} -a cryo_utilities -a cu.md5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CRYOUTILITIES }}
 
       - name: Create Latest Release
         shell: bash
         run: hub release create latest -m latest -a cryo_utilities -a cu.md5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CRYOUTILITIES }}
 
   dev-release:
     needs: build
@@ -102,10 +102,10 @@ jobs:
           delete_release: true
           repo: ${{ github.repository }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CRYOUTILITIES }}
 
       - name: Create Develop Release
         shell: bash
         run: hub release create develop -m develop -a cryo_utilities
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CRYOUTILITIES }}

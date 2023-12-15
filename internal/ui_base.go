@@ -1,4 +1,4 @@
-// CryoUtilities
+﻿// CryoUtilities
 // Copyright (C) 2023 CryoByte33 and contributors to the CryoUtilities project
 
 // This program is free software: you can redistribute it and/or modify
@@ -47,17 +47,17 @@ func (app *Config) makeUI() {
 	app.authUI()
 
 	// Show a disclaimer that I'm not responsible for damage.
-	dialog.ShowConfirm("Disclaimer",
-		"This script was made by CryoByte33 to resize the swapfile on a Steam Deck.\n\n"+
-			"Disclaimer: I am in no way responsible to damage done to any\n"+
-			"device this is executed on, all liability lies with the user.\n\n"+
-			"Do you accept these terms?",
+	dialog.ShowConfirm("免责声明",
+		"此脚本由 CryoByte33 制作，Juij 汉化，用于调整 Steam Deck 上交换文件的大小。\n\n"+
+			"免责声明：对任何人造成的损害不承担任何责任\n"+
+			"执行此操作的设备，所有责任均由用户承担。\n\n"+
+			"接受这些条款吗？",
 		func(b bool) {
 			if !b {
-				presentErrorInUI(errors.New("terms not accepted"), CryoUtils.MainWindow)
+				presentErrorInUI(errors.New("不接受条款"), CryoUtils.MainWindow)
 				CryoUtils.MainWindow.Close()
 			} else {
-				CryoUtils.InfoLog.Println("Terms accepted, continuing...")
+				CryoUtils.InfoLog.Println("接受条款，继续...")
 			}
 		},
 		CryoUtils.MainWindow,
@@ -72,11 +72,11 @@ func (app *Config) makeUI() {
 func (app *Config) mainUI() {
 	// Create heading section
 	tabs := container.NewAppTabs(
-		container.NewTabItemWithIcon("Home", theme.HomeIcon(), app.homeTab()),
-		container.NewTabItemWithIcon("Swap", theme.MailReplyAllIcon(), app.swapTab()),
-		container.NewTabItemWithIcon("Memory", theme.ComputerIcon(), app.memoryTab()),
-		container.NewTabItemWithIcon("Storage", theme.StorageIcon(), app.storageTab()),
-		container.NewTabItemWithIcon("VRAM", theme.ViewFullScreenIcon(), app.vramTab()),
+		container.NewTabItemWithIcon("主页", theme.HomeIcon(), app.homeTab()),
+		container.NewTabItemWithIcon("交换文件", theme.MailReplyAllIcon(), app.swapTab()),
+		container.NewTabItemWithIcon("内存", theme.ComputerIcon(), app.memoryTab()),
+		container.NewTabItemWithIcon("存储", theme.StorageIcon(), app.storageTab()),
+		container.NewTabItemWithIcon("显存", theme.ViewFullScreenIcon(), app.vramTab()),
 	)
 	tabs.SetTabLocation(container.TabLocationTop)
 
@@ -88,33 +88,33 @@ func (app *Config) authUI() {
 	// Refactor this, duplicated code.
 	passwordEntry := widget.NewPasswordEntry()
 	passwordEntry.OnSubmitted = func(s string) {
-		CryoUtils.InfoLog.Println("Testing password...")
+		CryoUtils.InfoLog.Println("检测密码...")
 		err := testAuth(s)
 		if err != nil {
-			CryoUtils.InfoLog.Println("Password invalid, asking again...")
-			dialog.ShowInformation("Incorrect password", "Incorrect password, please try again.",
+			CryoUtils.InfoLog.Println("密码无效，请重新输入...")
+			dialog.ShowInformation("密码错误", "密码错误，请重试。",
 				CryoUtils.MainWindow)
 		} else {
-			CryoUtils.InfoLog.Println("Password valid, continuing...")
+			CryoUtils.InfoLog.Println("密码有效，继续...")
 			CryoUtils.UserPassword = s
 			app.mainUI()
 		}
 	}
-	passwordButton := widget.NewButton("Submit", func() {
-		CryoUtils.InfoLog.Println("Testing password...")
+	passwordButton := widget.NewButton("提交", func() {
+		CryoUtils.InfoLog.Println("检测密码...")
 		err := testAuth(passwordEntry.Text)
 		if err != nil {
-			CryoUtils.InfoLog.Println("Password invalid, asking again...")
-			dialog.ShowInformation("Incorrect password", "Incorrect password, please try again.",
+			CryoUtils.InfoLog.Println("密码无效，请重新输入...")
+			dialog.ShowInformation("密码错误", "密码错误，请重试。",
 				CryoUtils.MainWindow)
 		} else {
-			CryoUtils.InfoLog.Println("Password valid, continuing...")
+			CryoUtils.InfoLog.Println("密码有效，继续...")
 			CryoUtils.UserPassword = passwordEntry.Text
 			app.mainUI()
 		}
 	})
 	passwordVBox := container.NewVBox(passwordEntry, passwordButton)
-	passwordContainer := widget.NewCard("Enter your sudo/deck password.", "Enter your sudo/deck password.", passwordVBox)
+	passwordContainer := widget.NewCard("输入你的 sudo/deck 密码", "输入你的 sudo/deck 密码", passwordVBox)
 
 	//  Add container to window
 
