@@ -24,7 +24,7 @@ import (
 
 func init() {
 	//设置中文字体
-	os.Setenv("FYNE_FONT", "/home/deck/.cryo_utilities/NotoSansSC.ttf")
+	os.Setenv("FYNE_FONT", "/home/deck/.cryo_utilities/font.ttf")
 }
 
 // CurrentVersionNumber Version number to build with, Fyne can't support build flags just yet.

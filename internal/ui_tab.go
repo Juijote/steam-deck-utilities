@@ -30,7 +30,7 @@ import (
 
 func init() {
 	//设置中文字体
-	os.Setenv("FYNE_FONT", "/home/deck/.cryo_utilities/NotoSansSC.ttf")
+	os.Setenv("FYNE_FONT", "/home/deck/.cryo_utilities/font.ttf")
 }
 
 // Home tab for "recommended" and "default" buttons
@@ -64,7 +64,7 @@ func (app *Config) homeTab() *fyne.Container {
 			"页锁不公平: " + RecommendedPageLockUnfairness + "\n" +
 			"大页面中的共享内存: 启用")
 
-	recommendedButton := widget.NewButton("Recommended", func() {
+	recommendedButton := widget.NewButton("推荐设置", func() {
 		progressGroup := container.NewVBox(
 			canvas.NewText("正在应用推荐设置...", White),
 			actionText,
@@ -84,7 +84,7 @@ func (app *Config) homeTab() *fyne.Container {
 			CryoUtils.MainWindow,
 		)
 	})
-	stockButton := widget.NewButton("Stock", func() {
+	stockButton := widget.NewButton("恢复默认", func() {
 		progressText := canvas.NewText("恢复到默认设置...", White)
 		progressBar := widget.NewProgressBarInfinite()
 		progressGroup := container.NewVBox(progressText, progressBar)
