@@ -31,10 +31,6 @@ import (
 )
 
 func InitUI() {
-    files := font.FindFontFile("ZHS")
-    if len(files) > 0 {
-        os.Setenv("FYNE_FONT", files[0])
-    }
 
 	// Create a Fyne application
 	screenSizer := NewScreenSizer()
@@ -53,6 +49,11 @@ func InitUI() {
 
 func (app *Config) makeUI() {
 	app.authUI()
+
+    files := font.FindFontFile("ZHS")
+    if len(files) > 0 {
+        os.Setenv("FYNE_FONT", files[0])
+    }
 
 	// Show a disclaimer that I'm not responsible for damage.
 	dialog.ShowConfirm("免责声明",
