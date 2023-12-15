@@ -26,6 +26,8 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
+
+	_ "github.com/lengzhao/font/autoload"
 )
 
 func syncGameDataWindow() {

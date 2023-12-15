@@ -22,6 +22,8 @@ import (
 	"strings"
 
 	"github.com/andygrunwald/vdf"
+
+	_ "github.com/lengzhao/font/autoload"
 )
 
 type Library struct {

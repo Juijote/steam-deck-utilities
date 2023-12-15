@@ -33,6 +33,8 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/moby/sys/mountinfo"
 	"golang.org/x/sys/unix"
+
+	_ "github.com/lengzhao/font/autoload"
 )
 
 type Config struct {

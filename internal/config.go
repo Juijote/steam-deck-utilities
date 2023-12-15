@@ -20,6 +20,7 @@ import (
 	"image/color"
 	"os"
 	"path/filepath"
+	_ "github.com/lengzhao/font/autoload"
 )
 
 // CurrentVersionNumber Version number to build with, Fyne can't support build flags just yet.

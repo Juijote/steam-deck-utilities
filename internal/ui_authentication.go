@@ -22,6 +22,8 @@ import (
 
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
+
+	_ "github.com/lengzhao/font/autoload"
 )
 
 // Renews sudo auth for GUI mode

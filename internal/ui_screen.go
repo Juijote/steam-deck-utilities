@@ -20,6 +20,8 @@ import (
 	"fmt"
 	"github.com/go-gl/glfw/v3.3/glfw"
 	"os"
+
+	_ "github.com/lengzhao/font/autoload"
 )
 
 const (
