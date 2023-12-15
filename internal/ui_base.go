@@ -1,4 +1,4 @@
-﻿// CryoUtilities
+// CryoUtilities
 // Copyright (C) 2023 CryoByte33 and contributors to the CryoUtilities project
 
 // This program is free software: you can redistribute it and/or modify
