@@ -25,15 +25,10 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"	
-
 	_ "github.com/lengzhao/font/autoload"
 )
 
 func InitUI() {
-	files := font.FindFontFile("ZHS")
-    if len(files) > 0 {
-        os.Setenv("FYNE_FONT", files[0])
-    }
 	// Create a Fyne application
 	screenSizer := NewScreenSizer()
 	screenSizer.UpdateScaleForActiveMonitor()
